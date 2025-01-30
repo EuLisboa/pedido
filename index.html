@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pedido Especial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ff99cc;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .heart, .flower {
+            position: absolute;
+            pointer-events: none;
+            animation: float 6s ease-out forwards;
+        }
+
+        .flower {
+            font-size: 24px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            transition: transform 0.3s;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        #sim {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #nao {
+            background-color: #f44336;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Quer Namorar Comigo? 💖</h1>
+        <p>Você é a pessoa mais incrível que já conheci...</p>
+        
+        <div>
+            <button id="sim">SIM! 😍</button>
+            <button id="nao">Não 😢</button>
+        </div>
+    </div>
+
+    <script>
+        function criarElemento(tipo, conteudo) {
+            const elemento = document.createElement('div');
+            elemento.className = tipo;
+            elemento.innerHTML = conteudo;
+            elemento.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(elemento);
+            
+            elemento.addEventListener('animationend', () => {
+                elemento.remove();
+            });
+        }
+
+        function criarCoracoes() {
+            const cores = ['#ff0000', '#ff69b4', '#ff1493'];
+            const cor = cores[Math.floor(Math.random() * cores.length)];
+            criarElemento('heart', `<span style="color:${cor};font-size:${Math.random() * 30 + 20}px">❤</span>`);
+        }
+
+        function criarFlores() {
+            const flores = ['🌸', '🌺', '🌷', '💮', '🏵️'];
+            const flor = flores[Math.floor(Math.random() * flores.length)];
+            criarElemento('flower', flor);
+        }
+
+        // Animação contínua
+        setInterval(() => {
+            criarCoracoes();
+            criarFlores();
+        }, 800);
+
+        // Eventos dos botões
+        document.getElementById('sim').addEventListener('click', () => {
+            for(let i = 0; i < 30; i++) { // Reduzido para melhor desempenho
+                criarCoracoes();
+                criarFlores();
+            }
+            alert("🎉🎉 Você é a mulher com quem eu quero dançar todas as minhas danças 💖 🎉🎉");
+        });
+
+        // Funciona tanto para toque quanto para mouse
+        let toques = 0;
+        document.getElementById('nao').addEventListener('touchstart', () => {
+            const btn = document.getElementById('nao');
+            btn.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+            toques++;
+            if (toques > 5) {
+                btn.style.display = 'none'; // Esconde o botão após muitos toques
+            }
+        });
+
+        document.getElementById('nao').addEventListener('mouseover', () => {
+            const btn = document.getElementById('nao');
+            btn.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+        });
+    </script>
+</body>
+</html>
